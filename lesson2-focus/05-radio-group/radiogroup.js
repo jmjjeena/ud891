@@ -23,33 +23,42 @@
     this.el.addEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
-  RadioGroup.prototype.handleKeyDown = function(e) {
+RadioGroup.prototype.handleKeyDown = function(e) {
     switch(e.keyCode) {
-
+  // if you press left or up array key
       case VK_UP:
       case VK_LEFT: {
 
         e.preventDefault();
-
-        // This seems like a good place to do some stuff :)
+    // if the selected button is the first, go to the button with index 4
+        if (this.focusedIdx === 0) {
+          this.focusedIdx = this.buttons.length - 1;
+        } else {
+    // if the selected button is not the first on the list, decrease the index by 1 
+          this.focusedIdx--;
+        }
 
         break;
 
       }
-
+  // if you press right or down array key
       case VK_DOWN:
       case VK_RIGHT: {
 
         e.preventDefault();
-
-        // This seems like a good place to do some stuff :)
+    // if the selected button is the last, go to the button with index 0, the first on the list
+        if (this.focusedIdx === this.buttons.length - 1) {
+          this.focusedIdx = 0;
+        } else {
+    // if the selected button is not the l on the list, increase the index by 1 
+          this.focusedIdx++;
+        }
 
         break;
       }
-
     }
-
-    this.changeFocus(this.focusedIdx); // <-- Hmm, interesting...
+    // set unchecked the old button and focus on the new one
+    this.changeFocus(this.focusedIdx);
   };
 
   RadioGroup.prototype.changeFocus = function(idx) {
